@@ -1,14 +1,10 @@
-# 06-03
-# use test set bandwith
-# add v_hat calculation
 
-# 06-17
 # Table 1: Compare our estimator to mean eta and Huber's, under different sample sizes n = 500, 1000, 2000.
 #          Use Silverman bandwidth, under different mis-specification settings, report average mean bias and RMSE
-# Table 2: Use undersmoothing bandwidth (Silverman bw / 2) and correct specifications
-#          report (coverage, length of CI, absolute average bias, RMSE) under different sample sizes
-# Table 3: sensitivity analysis over sample sizes and bandwidths, under correct specifications,
+
+# Table 2: sensitivity analysis over sample sizes and bandwidths, 
 #          report absolute average bias, mean of $\sqrt{\hat{V}}$, and coverage
+
 
 library(MASS)
 library(cubature)
@@ -32,8 +28,8 @@ a_prime = 6
 mean_X <- c(0, 0, 0, 0)
 sigma_X <- diag(c(0.25, 0.1,0.8, 0.5)) # diag(c(1, 2, 1.5, 0.5))
 
-y1 = -1 #-0.646
-y2 = 5#2 #0.539
+y1 = -1 
+y2 = 5
 
 # Monte Carlo integration to calculate true value of parameter
 x <- mvrnorm(100000, mean_X, sigma_X)
@@ -52,7 +48,6 @@ simulate <- function(n) {
   A =  5 + X[, 1] + 0.2*X[,1]^2 + rnorm(n)
   
   # Simulate mediator
-  #p_M <- sigmoid(1 + A + 2*X[,2] + A*X[,3])
   p_M <- sigmoid(-5+ 5*A + 2*X[,2] + 10*A*X[,3])
   M <- rbinom(n, size = 1, p = p_M)
   

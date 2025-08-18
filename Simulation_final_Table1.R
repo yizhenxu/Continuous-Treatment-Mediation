@@ -1,16 +1,10 @@
-# 06-03
-# use test set bandwith
-# add v_hat calculation
 
-# 06-17
 # Table 1: Compare our estimator to mean eta and Huber's, under different sample sizes n = 500, 1000, 2000.
 #          Use Silverman bandwidth, under different mis-specification settings, report average mean bias and RMSE
-# Table 2: Use undersmoothing bandwidth and correct specifications
-#          report (coverage, length of CI, absolute average bias, RMSE) under different sample sizes
-# Table 3: sensitivity analysis over sample sizes and bandwidths, 
+
+# Table 2: sensitivity analysis over sample sizes and bandwidths, 
 #          report absolute average bias, mean of $\sqrt{\hat{V}}$, and coverage
 
-# throw out 0.5% for propensity weight of a and a_prime
 
 library(MASS)
 library(cubature)
@@ -34,13 +28,12 @@ a_prime = 6
 mean_X <- c(0, 0, 0, 0)
 sigma_X <- diag(c(0.25, 0.1,0.8, 0.5)) # diag(c(1, 2, 1.5, 0.5))
 
-y1 = -1 #-0.646
-y2 = 5#2 #0.539
+y1 = -1 
+y2 = 5
 
 # Monte Carlo integration to calculate true value of parameter
 x <- mvrnorm(100000, mean_X, sigma_X)
 
-#logistic_M <- sigmoid(1 + 5*a_prime + 2*x[,2] + a_prime*x[,3])
 logistic_M <- sigmoid(-5 + 5*a_prime + 2*x[,2] + 10*a_prime*x[,3])
 result_m1 <- (y1 * a +20+ y2 * 1 * x[,1] + x[,2] ) * logistic_M
 result_m0 <- (y1 * a +0+ y2 * 0 * x[,1] + x[,2] ) * (1 - logistic_M)
@@ -54,7 +47,6 @@ simulate <- function(n) {
   A =  5 + X[, 1] + 0.2*X[,1]^2 + rnorm(n)
   
   # Simulate mediator
-  #p_M <- sigmoid(1 + A + 2*X[,2] + A*X[,3])
   p_M <- sigmoid(-5+ 5*A + 2*X[,2] + 10*A*X[,3])
   M <- rbinom(n, size = 1, p = p_M)
   
@@ -271,10 +263,8 @@ estimate_psi_if_incorrect <- function(df_inference, df_nuisance, bandwidth_silve
   
   OR_model <- glm(Y ~ A  +X2, family = gaussian, data = df_nuisance)
   
-  #propensity_model <- lm(A ~ X1 , data = df_nuisance)
   propensity_model <- lm(A ~ 1, data = df_nuisance)
-  #mediator_model <- glm(M ~ A +  X2 + A:X3-1, 
-  #                      data = df_nuisance, family = binomial)
+
   mediator_model <- glm(M ~ A +A:X3 , 
                         data = df_nuisance, family = binomial)
   
