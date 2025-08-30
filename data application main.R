@@ -120,6 +120,6 @@ source("data application Figure 2.R")
 ##################### Sensitivity Analysis #####################################
 ################################################################################
 # sensitivity to bandwidth and clipping (cc)
-# compare a' = 40 vs a = 1500
+# compare a' = 60 vs a = 1500
 
 source("data application Figure 3.R")
