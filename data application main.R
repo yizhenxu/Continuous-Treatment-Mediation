@@ -8,13 +8,17 @@ require(betareg)
 library(car)
 library(sn)
 library(randomForest)
-
+library(kernlab)
+#devtools::install_github("lee-group-cmu/RFCDE", subdir = "r")
+library(RFCDE)
+path = "~/JCI continuous treatment mediation/Continuous-Treatment-Mediation-main"
+setwd(path)
 ################################################################################
 ##################### Data Cleaning ############################################
 ################################################################################
 # Load and subset data with positive d
 #load("hhll/JCdata.RData")
-setwd("/users/yxu2/delete")
+#setwd("/users/yxu2/delete")
 load("JCdata.RData")
 #load("/Users/yizhenxu/Downloads/hhll/JCdata.RData")
 JCdata = JCdata[JCdata$d > 0,]
@@ -29,8 +33,7 @@ JCdata$d.log <- log(JCdata$d)
 # Binarize y - AUC with logistic regression model is 0.7663
 JCdata$y.binary <- 1*(JCdata$y > 0)
 
-source("data applciation functions.R")
-
+source("data_application_functions_M1_M2_FINAL.R") # 2 options, glm+betareg, RKHS
 ################################################################################
 ##################### Data Summary #############################################
 ################################################################################
@@ -114,7 +117,7 @@ noquote(tab)
 ############################ Data Analysis #####################################
 ################################################################################
 
-source("data application Figure 2.R")
+source("data_application_Figure_2_M1_M2_FINAL.R")
 
 ################################################################################
 ##################### Sensitivity Analysis #####################################
